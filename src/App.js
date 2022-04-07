@@ -1,28 +1,49 @@
 import './App.css';
-import React, { useEffect, useState, createContext, useContext } from 'react';
+import React, { useReducer } from 'react';
 
-const ThemeContext = createContext()
-
-function App() {
-  return (
-    <ThemeContext.Provider 
-    value={
-      {
-        mode: 'dark'
-      }
+function reducer(state, action) {
+  if(action.type === 'plus') {
+    return {
+      counter: state.counter + 1,
+      clicks: state.clicks + 1 
     }
-    >
-        <Button />
-    </ThemeContext.Provider>
-  );
+  }
+
+  if(action.type === 'minus') {
+    return {
+      counter: state.counter - 1,
+      clicks: state.clicks + 1 
+    }
+  }
+
+  return state;
 }
 
-function Button() {
-  const theme = useContext(ThemeContext);
+const initialValue = {
+  counter: 0,
+  clicks: 0
+}
+
+function App() {
+
+  const [state, dispatch] = useReducer(reducer, initialValue)
+
+  const handleMinus = () => {
+    dispatch({ type: 'minus' })
+  }
+
+  const handlePlus = () => {
+    dispatch({ type: 'plus' })
+  }
 
   return (
-    <button>{theme.mode}</button>
-  )
+    <div>
+        <h1>{ state.counter }</h1>
+        <h4>Cliques: { state.clicks }</h4>
+        <button onClick={handlePlus}>+</button>
+        <button onClick={handleMinus}>-</button>
+    </div>
+  );
 }
 
 export default App;
