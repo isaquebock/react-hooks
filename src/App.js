@@ -1,47 +1,18 @@
 import './App.css';
-import React, { useReducer } from 'react';
-
-function reducer(state, action) {
-  if(action.type === 'plus') {
-    return {
-      counter: state.counter + 1,
-      clicks: state.clicks + 1 
-    }
-  }
-
-  if(action.type === 'minus') {
-    return {
-      counter: state.counter - 1,
-      clicks: state.clicks + 1 
-    }
-  }
-
-  return state;
-}
-
-const initialValue = {
-  counter: 0,
-  clicks: 0
-}
+import React, { useState, useCallback } from 'react';
 
 function App() {
 
-  const [state, dispatch] = useReducer(reducer, initialValue)
+  const [counter, setCounter] = useState(0)
 
-  const handleMinus = () => {
-    dispatch({ type: 'minus' })
-  }
-
-  const handlePlus = () => {
-    dispatch({ type: 'plus' })
-  }
+  const handlePlus = useCallback(() => {
+    setCounter((prevState) => prevState + 1)
+  }, [])
 
   return (
     <div>
-        <h1>{ state.counter }</h1>
-        <h4>Cliques: { state.clicks }</h4>
-        <button onClick={handlePlus}>+</button>
-        <button onClick={handleMinus}>-</button>
+      <h1>{counter}</h1>
+      <button onClick={handlePlus}>+</button>
     </div>
   );
 }
