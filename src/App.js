@@ -1,29 +1,25 @@
 import './App.css';
-import React, { useState, useMemo } from 'react';
+import React, { useState, useRef } from 'react';
 
 function App() {
-  const [name, setName] = useState('')
-  const [counter, setCounter] = useState(0)
+  console.log('redered')
 
-  const total = useMemo(() => {
-    return counter * 10 / 2
-  }, [counter])
+  const number = useRef(0)
 
-  const handlePlus = () => {
-    setCounter((prevState) => prevState + 1);
+  function handleSetValue() {
+    const newNumber = Math.round(Math.random() * (10 - 1) + 1)
+
+    number.current = newNumber
+  }
+
+  function handlePrintValue() {
+    alert(number.current)
   }
 
   return (
     <div>
-      <h1>{counter}</h1>
-      <button onClick={handlePlus}>+</button>
-
-      <h2>Resultado: {total}</h2>
-
-      <br /><br />
-
-      <strong>{ name }</strong><br />
-      <input onChange={e => setName(e.target.value)} />
+      <button onClick={handleSetValue}>set value</button>
+      <button onClick={handlePrintValue}>print value</button>
     </div>
   );
 }
